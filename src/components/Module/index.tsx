@@ -3,16 +3,18 @@ import { Container } from "./styles";
 interface IModuleProps {
   title: string;
   totalLessons: number;
+  activeModule: boolean;
   handlerGetLessonByModule: () => void;
 }
 
 export function Module({
   title,
   totalLessons,
+  activeModule,
   handlerGetLessonByModule,
 }: IModuleProps) {
   return (
-    <Container onClick={handlerGetLessonByModule}>
+    <Container onClick={handlerGetLessonByModule} isAcvite={activeModule}>
       <div className="left">
         <svg
           xmlns="http://www.w3.org/2000/svg"

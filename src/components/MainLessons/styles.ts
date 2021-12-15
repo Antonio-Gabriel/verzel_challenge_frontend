@@ -18,7 +18,7 @@ export const Modules = styled.div`
   padding: 2rem 1.4rem;
 
   ${Grid} {
-    gap: 2.2rem;
+    gap: 1rem;
   }
 
   .text {

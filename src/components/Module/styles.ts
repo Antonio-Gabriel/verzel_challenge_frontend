@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-type isActiveModule = {
+type IActiveModule = {
   isAcvite: boolean;
-}
+};
 
-export const Container = styled.div`
+export const Container = styled.div<IActiveModule>`
   background: #fff;
   padding: 1rem 1rem;
 
@@ -22,9 +22,16 @@ export const Container = styled.div`
     margin-right: 0.6rem;
 
     svg {
-      fill: var(--text-color);
+      fill: ${({ isAcvite }) =>
+        isAcvite ? "var(--body-color)" : "var(--text-color)"};
     }
   }
+
+  background: ${({ isAcvite }) =>
+    isAcvite ? "var(--primary-color)" : "#FFF"};
+
+  color: ${({ isAcvite }) =>
+    isAcvite ? "var(--body-color)" : "var(--text-color)"};
 
   :hover {
     background: var(--primary-color);

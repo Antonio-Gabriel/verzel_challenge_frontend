@@ -15,6 +15,7 @@ import { Container, Content, Lessons, Modules } from "./styles";
 export function Main() {
   const [modules, setModules] = useState<IModules[]>([]);
   const [lessons, setLessons] = useState<IModules>({} as any);
+  const [isActiveModule, setIsActiveModule] = useState(modules[0]?.id);
 
   useEffect(() => {
     GetAllModulesWithLessons().then((data) => setModules(data));
@@ -38,10 +39,14 @@ export function Main() {
             {!!modules?.length ? (
               modules.map(({ id, name, lessons }) => (
                 <Module
+                  activeModule={isActiveModule === id}
                   key={id}
                   title={name}
                   totalLessons={lessons.length}
-                  handlerGetLessonByModule={() => subscribeLessonsResponse(id)}
+                  handlerGetLessonByModule={() => {
+                    subscribeLessonsResponse(id);
+                    setIsActiveModule(id);
+                  }}
                 />
               ))
             ) : (
