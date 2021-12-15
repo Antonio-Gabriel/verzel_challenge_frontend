@@ -21,7 +21,11 @@ export function Header() {
                 </NavigationLink>
               </NavigationItem>
               <NavigationItem>
-                <NavigationLink to="/course" activeClassName="is_active">
+                <NavigationLink
+                  exact
+                  to="/calendar-lesson"
+                  activeClassName="is_active"
+                >
                   Calendário de aulas
                 </NavigationLink>
               </NavigationItem>

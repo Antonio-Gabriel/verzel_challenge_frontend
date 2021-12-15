@@ -1,13 +1,12 @@
 import { BrowserRouter } from "react-router-dom";
-import { Home } from "./pages/Home/Home";
+import { Routes } from "./routes";
 import { GlobalStyles } from "./styles/GlobalStyles";
 
 
 export function App() {
   return (
     <BrowserRouter>
-      <Home />
-
+      <Routes />
       <GlobalStyles />
     </BrowserRouter>
   );

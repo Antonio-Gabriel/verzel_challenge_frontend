@@ -1,11 +1,12 @@
 import { Switch, Route } from "react-router-dom";
-import { Home } from "../pages/Home/Home";
+import { Courses } from "../pages/Courses";
+import { Home } from "../pages/Home";
 
 export function Routes() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/calendar-lesson" component={Home} />
+      <Route exact path="/" component={Home} />
+      <Route exact path="/calendar-lesson" component={Courses} />
     </Switch>
   );
 }

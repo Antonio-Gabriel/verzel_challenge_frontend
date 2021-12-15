@@ -5,7 +5,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   background: linear-gradient(101.14deg, #5130a6 19.87%, #5721de 93.83%);
 
-  padding: 4.5rem 0;
+  padding: 5rem 0;
 `;
 
 export const Content = styled.div`
