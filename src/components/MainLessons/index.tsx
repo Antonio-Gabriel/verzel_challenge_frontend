@@ -1,9 +1,31 @@
+import { useEffect, useState } from "react";
+
+import { IModules } from "../../types/IModules";
+
 import { Module } from "../Module";
+import { Lesson } from "../Lesson";
+
+import {
+  GetAllModulesWithLessons,
+  GetLessonsByModule,
+} from "../../services/modulesService";
+
 import { Container, Content, Lessons, Modules } from "./styles";
 
-import videoBg from "../../assets/video/meeeting.mp4";
-
 export function Main() {
+  const [modules, setModules] = useState<IModules[]>([]);
+  const [lessons, setLessons] = useState<IModules>({} as any);
+
+  useEffect(() => {
+    GetAllModulesWithLessons().then((data) => setModules(data));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function subscribeLessonsResponse(idModule: number) {
+    GetLessonsByModule(idModule).then((data) => setLessons(data));
+  }
+
   return (
     <Container>
       <Content>
@@ -13,54 +35,39 @@ export function Main() {
             <p>Selecione o módulo para ver as aulas disponíveis:</p>
           </header>
           <div className="modules-list">
-            <Module title="Conceitos de Sistema e DevOps" totalLessons={1} />
-            <Module title="Conceitos de Sistema" totalLessons={1} />
-            <Module title="Conceitos de Sistema e DevOps" totalLessons={1} />
-            <Module title="Conceitos de Sistema e DevOps" totalLessons={1} />
+            {!!modules?.length ? (
+              modules.map(({ id, name, lessons }) => (
+                <Module
+                  key={id}
+                  title={name}
+                  totalLessons={lessons.length}
+                  handlerGetLessonByModule={() => subscribeLessonsResponse(id)}
+                />
+              ))
+            ) : (
+              <h3>Sem Módulos</h3>
+            )}
+            <div />
+            <div />
           </div>
         </Modules>
         <Lessons>
           <header className="text">
-            <h2>Projeto Backend</h2>
-            <p>Todas as aulas disponíveis nesse módulo:</p>
+            {lessons.name && (
+              <>
+                <h2>{lessons.name}</h2>
+                <p>Todas as aulas disponíveis nesse módulo:</p>
+              </>
+            )}
           </header>
           <div className="lessons-list">
-            <div className="lesson-item">
-              <header>
-                <video src={videoBg} autoPlay loop />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
-                  <path d="m9 17 8-5-8-5z"></path>
-                </svg>
-              </header>
-
-              <div className="description">
-                <h3>Introdução ao Curso</h3>
-                <ul>
-                  <li>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
-                      <path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"></path>
-                    </svg>
-                    <span>02/04/2021</span>
-                  </li>
-                </ul>
-
-                <button>Assistir Aula</button>
-              </div>
-            </div>
-            <div className="lesson-item">aaa</div>
-            <div className="lesson-item">aaa</div>
+            {!!lessons.lessons?.length ? (
+              lessons.lessons.map(({ id, name, start_date }) => (
+                <Lesson key={id} name={name} start_date={start_date} />
+              ))
+            ) : (
+              <h2>Sem aulas</h2>
+            )}
           </div>
         </Lessons>
       </Content>

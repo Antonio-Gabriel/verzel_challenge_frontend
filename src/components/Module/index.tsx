@@ -3,7 +3,7 @@ import { Container } from "./styles";
 interface IModuleProps {
   title: string;
   totalLessons: number;
-  handlerGetLessonByModule?: () => void;
+  handlerGetLessonByModule: () => void;
 }
 
 export function Module({

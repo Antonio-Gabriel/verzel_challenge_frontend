@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
+type isActiveModule = {
+  isAcvite: boolean;
+}
+
 export const Container = styled.div`
   background: #fff;
-  padding: 1.5rem 1rem;
+  padding: 1rem 1rem;
 
   display: flex;
   align-items: center;
