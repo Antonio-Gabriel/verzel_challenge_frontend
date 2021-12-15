@@ -1,5 +1,14 @@
+import { BrowserRouter } from "react-router-dom";
+import { Home } from "./pages/Home/Home";
+import { GlobalStyles } from "./styles/GlobalStyles";
+
+
 export function App() {
-  return <div className="App">
-    <h1>Welcome</h1>
-  </div>;
+  return (
+    <BrowserRouter>
+      <Home />
+
+      <GlobalStyles />
+    </BrowserRouter>
+  );
 }
