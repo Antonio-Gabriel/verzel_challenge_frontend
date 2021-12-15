@@ -27,8 +27,7 @@ export const Container = styled.div<IActiveModule>`
     }
   }
 
-  background: ${({ isAcvite }) =>
-    isAcvite ? "var(--primary-color)" : "#FFF"};
+  background: ${({ isAcvite }) => (isAcvite ? "var(--primary-color)" : "#FFF")};
 
   color: ${({ isAcvite }) =>
     isAcvite ? "var(--body-color)" : "var(--text-color)"};

@@ -23,6 +23,14 @@ export function Main() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (modules[0]?.id !== undefined) {
+      subscribeLessonsResponse(modules[0]?.id);
+
+      setIsActiveModule(modules[0]?.id);
+    }
+  }, [modules]);
+
   function subscribeLessonsResponse(idModule: number) {
     GetLessonsByModule(idModule).then((data) => setLessons(data));
   }
@@ -52,6 +60,8 @@ export function Main() {
             ) : (
               <h3>Sem Módulos</h3>
             )}
+
+            <div />
             <div />
             <div />
           </div>
