@@ -29,5 +29,5 @@ Os recursos funcionais da aplicação são:
 - [ ] Criação, remoção, actualização e deleção de aula
 - [ ] Authenticação de usuário
 - [ ] Listagem das aulas em ordem alfabetica
-- [ ] Validação dos campos antes da inserção
+- [x] Validação dos campos antes da inserção
 
