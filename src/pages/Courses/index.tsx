@@ -1,4 +1,5 @@
 import { Main } from "../../components/MainLessons";
+import { Footer } from "../../layout/Footer";
 import { Header } from "../../layout/Header";
 
 export function Courses() {
@@ -6,6 +7,7 @@ export function Courses() {
     <>
       <Header />      
       <Main />
+      <Footer />
     </>
   );
 }
