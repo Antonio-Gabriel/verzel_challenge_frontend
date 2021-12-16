@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Input } from "../Input";
@@ -22,10 +22,11 @@ export function HeroAuth() {
     });
   }
 
-  function handleAuthUser(event: ChangeEvent<HTMLFormElement>) {
+  function handleAuthUser(event: SyntheticEvent) {
     event.preventDefault();
 
     try {
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -43,7 +44,7 @@ export function HeroAuth() {
               <h2>Fazer Login</h2>
             </Header>
 
-            <Form autoComplete="off">
+            <Form autoComplete="off" onSubmit={handleAuthUser}>
               <Input
                 name="email"
                 value={data.email}

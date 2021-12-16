@@ -7,7 +7,7 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`  
-  padding: 0 4rem;
+  padding: 0 1rem;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);    
@@ -32,7 +32,7 @@ export const Content = styled.div`
 
     .card {
       background: var(--primary-color);
-      width: 26.5rem;
+      width: 24.5rem;
       height: 24.3125rem;
       border-radius: 8px;
 
