@@ -1,7 +1,7 @@
 import { ILessons } from "./ILessons";
 
 export type IModules = {
-  id: number;
+  id?: number;
   name: string;
   lessons: ILessons[];
 };

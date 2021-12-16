@@ -17,6 +17,9 @@ export function Routes() {
       <Route exact path="/create-account" component={CreateAccount} />
 
       <Route exact path="/dashboard" component={Dashboard} isPrivate />
+      <Route exact path="/modules" component={Dashboard} isPrivate />
+      <Route exact path="/lessons" component={Dashboard} isPrivate />
+      <Route exact path="/profile" component={Dashboard} isPrivate />
     </Switch>
   );
 }

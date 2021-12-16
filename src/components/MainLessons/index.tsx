@@ -52,7 +52,7 @@ export function Main() {
                   title={name}
                   totalLessons={lessons.length}
                   handlerGetLessonByModule={() => {
-                    subscribeLessonsResponse(id);
+                    subscribeLessonsResponse(Number(id));
                     setIsActiveModule(id);
                   }}
                 />

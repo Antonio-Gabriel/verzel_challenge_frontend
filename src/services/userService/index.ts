@@ -23,3 +23,9 @@ export async function updateUserAccountData(userAccountData: IUserAccount) {
     })
   ).data;
 }
+
+export async function GetAllUsers() {
+  return await (
+    await api.get<IUserAccount[]>("/users/")
+  ).data;
+}
