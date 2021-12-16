@@ -7,7 +7,11 @@ interface IProps extends RouteProps {
   component: ComponentType;
 }
 
-export function Route({ isPrivate = false, component: Component, ...rest }: IProps) {
+export function Route({
+  isPrivate = false,
+  component: Component,
+  ...rest
+}: IProps) {
   const { user } = useAuthentication();
   return (
     <RouteRRD

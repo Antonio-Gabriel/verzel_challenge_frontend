@@ -4,7 +4,6 @@ import { Input } from "../Input";
 import { Button } from "../Button";
 import { toast } from "react-toastify";
 
-import { useHistory } from "react-router-dom";
 import { IAuthentication } from "../../types/IAuthentication";
 import { useAuthentication } from "../../hooks/useAuthentication";
 
@@ -12,7 +11,6 @@ import { Container, Content, Form, Header } from "./styles";
 
 export function HeroAuth() {
   const { signIn, user } = useAuthentication();
-  let history = useHistory();
 
   const [data, setData] = useState<IAuthentication>({
     email: "",
@@ -39,8 +37,6 @@ export function HeroAuth() {
             toast.success("Welcome");
 
             console.clear();
-
-            history.push("/dashboard");
           }
         })
         .catch((error) => {

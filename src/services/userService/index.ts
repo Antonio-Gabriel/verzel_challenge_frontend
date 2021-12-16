@@ -13,3 +13,13 @@ export async function authUser(credentials: IAuthentication) {
     await api.post("/user/login/", credentials)
   ).data;
 }
+
+export async function updateUserAccountData(userAccountData: IUserAccount) {
+  const token = localStorage.getItem("access_token");
+
+  return await (
+    await api.put(`/users/${userAccountData.id}/`, userAccountData, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
+}
