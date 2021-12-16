@@ -5,7 +5,7 @@ import { Accordion } from "../Accordion";
 import { Container, Content } from "./styles";
 import { GetAllModulesWithLessons } from "../../services/modulesService";
 
-export function TableLessons() {
+export function AccordionsModules() {
   const [modules, setModules] = useState<IModules[]>([]);
 
   useEffect(() => {

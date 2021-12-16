@@ -14,9 +14,9 @@ export function Accordion({ id, name, lessons }: IModules) {
       {isActive && (
         <div className="accordion-content">
           <ul>
-            {!!lessons.length ? (
+            {!!lessons?.length ? (
               // eslint-disable-next-line array-callback-return
-              lessons.map(({ name, start_date, id }) => (
+              lessons?.map(({ name, start_date, id }) => (
                 <li key={id}>
                   <strong>{name}</strong>
                   <span>{start_date}</span>

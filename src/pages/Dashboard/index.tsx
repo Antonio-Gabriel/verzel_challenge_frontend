@@ -2,7 +2,7 @@ import { Cards } from "../../components/Cards";
 
 import { HeaderDashboard } from "../../components/HeaderDashbord";
 import { DashboardContent } from "../../components/DashboardContent";
-import { TableLessons } from "../../components/TableLessons";
+import { AccordionsModules } from "../../components/AccordionsModules";
 
 export function Dashboard() {
   return (
@@ -10,7 +10,7 @@ export function Dashboard() {
       <HeaderDashboard />
       <DashboardContent />
       <Cards />
-      <TableLessons />
+      <AccordionsModules />
     </>
   );
 }

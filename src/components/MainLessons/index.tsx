@@ -50,7 +50,7 @@ export function Main() {
                   activeModule={isActiveModule === id}
                   key={id}
                   title={name}
-                  totalLessons={lessons.length}
+                  totalLessons={Number(lessons?.length)}
                   handlerGetLessonByModule={() => {
                     subscribeLessonsResponse(Number(id));
                     setIsActiveModule(id);
