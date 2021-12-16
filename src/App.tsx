@@ -6,13 +6,16 @@ import { Routes } from "./routes";
 
 import "./assets/icons/style.css";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContextProvider } from "./provider/AuthContext";
 
 export function App() {
   return (
-    <BrowserRouter>
-      <Routes />
-      <ToastContainer />
-      <GlobalStyles />
-    </BrowserRouter>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Routes />
+        <ToastContainer />
+        <GlobalStyles />
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 }

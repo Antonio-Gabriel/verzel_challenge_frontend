@@ -5,8 +5,8 @@ import { IUserAccount } from "../../types/IUserAccount";
 import { Input } from "../Input";
 import { Button } from "../Button";
 
-import { Container, Content, Form, Header } from "./styles";
 import { createUserAccount } from "../../services/userService";
+import { Container, Content, Form, Header } from "./styles";
 
 export function HeroAccount() {
   const [data, setData] = useState<IUserAccount>({
@@ -62,7 +62,7 @@ export function HeroAccount() {
           toast.error("Erro!, tente mais tarde");
         });
     } catch (error) {
-      throw new Error("Error");
+      toast.error("Erro!, tente mais tarde");
     }
   }
 

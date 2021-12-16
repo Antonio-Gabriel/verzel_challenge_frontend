@@ -1,13 +1,17 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
-import { useHistory } from "react-router-dom";
 
 import { Input } from "../Input";
+import { Button } from "../Button";
+import { toast } from "react-toastify";
+
+import { useHistory } from "react-router-dom";
 import { IAuthentication } from "../../types/IAuthentication";
+import { useAuthentication } from "../../hooks/useAuthentication";
 
 import { Container, Content, Form, Header } from "./styles";
-import { Button } from "../Button";
 
 export function HeroAuth() {
+  const { signIn, user } = useAuthentication();
   let history = useHistory();
 
   const [data, setData] = useState<IAuthentication>({
@@ -22,13 +26,32 @@ export function HeroAuth() {
     });
   }
 
-  function handleAuthUser(event: SyntheticEvent) {
+  async function handleAuthUser(event: SyntheticEvent) {
     event.preventDefault();
 
     try {
-      console.log(data);
+      await signIn({
+        email: data.email,
+        password: data.password,
+      })
+        .then((_) => {
+          if (user) {
+            toast.success("Welcome");
+
+            console.clear();
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            toast.error("Usuário ou senha errada!.");
+
+            console.clear();
+
+            return;
+          }
+        });
     } catch (error) {
-      console.log(error);
+      toast.error("Ocorreu um erro");
     }
   }
   return (
