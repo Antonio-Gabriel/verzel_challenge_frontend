@@ -39,6 +39,8 @@ export function HeroAuth() {
             toast.success("Welcome");
 
             console.clear();
+
+            history.push("/dashboard");
           }
         })
         .catch((error) => {
