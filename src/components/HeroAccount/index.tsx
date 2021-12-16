@@ -1,10 +1,12 @@
 import { ChangeEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 import { IUserAccount } from "../../types/IUserAccount";
 import { Input } from "../Input";
 import { Button } from "../Button";
 
 import { Container, Content, Form, Header } from "./styles";
+import { createUserAccount } from "../../services/userService";
 
 export function HeroAccount() {
   const [data, setData] = useState<IUserAccount>({
@@ -20,6 +22,50 @@ export function HeroAccount() {
     });
   }
 
+  async function handleCreateUserAccount(event: ChangeEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    try {
+      if (!data.email || !data.username || !data.password) {
+        toast.error("Preencha devidamente os campos");
+
+        return;
+      }
+
+      if (data.password.length < 6) {
+        toast.error("Senha precisa conter no mínimo 6 caracteres");
+
+        return;
+      }
+
+      await createUserAccount({ ...data, state: true })
+        .then((responnse) => {
+          if (responnse.id) {
+            setData({
+              email: "",
+              username: "",
+              password: "",
+            });
+
+            toast.success("Conta criada com sucesso");
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            toast.error("Usuário ou email já existe");
+
+            console.clear();
+
+            return;
+          }
+
+          toast.error("Erro!, tente mais tarde");
+        });
+    } catch (error) {
+      throw new Error("Error");
+    }
+  }
+
   return (
     <Container>
       <Content>
@@ -33,14 +79,13 @@ export function HeroAccount() {
               <h2>Criar conta</h2>
             </Header>
 
-            <Form autoComplete="off">
+            <Form autoComplete="off" onSubmit={handleCreateUserAccount}>
               <Input
                 name="username"
                 value={data.username}
                 onChange={handleInputChange}
                 placeholder="Username"
-                type="email"
-                required
+                type="text"
               />
               <Input
                 name="email"
@@ -48,7 +93,6 @@ export function HeroAccount() {
                 onChange={handleInputChange}
                 placeholder="Email address"
                 type="email"
-                required
               />
               <Input
                 name="password"
@@ -57,10 +101,9 @@ export function HeroAccount() {
                 placeholder="Password"
                 isPassword
                 type="password"
-                required
               />
 
-              <Button text="Entrar" width={100} height={4} />
+              <Button text="Criar conta" width={100} height={4} />
             </Form>
           </div>
         </div>
