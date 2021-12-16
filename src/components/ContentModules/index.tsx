@@ -1,12 +1,18 @@
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { IModules } from "../../types/IModules";
 
 import { Form } from "../HeroAuth/styles";
 import { Input } from "../Input";
 import { toast } from "react-toastify";
 import { Container, Content } from "./styles";
+import {
+  createModule,
+  GetAllModulesWithLessons,
+} from "../../services/modulesService";
 
 export function ContentModules() {
+  const [modules, setModules] = useState<IModules[]>([]);
+
   const [data, setData] = useState<IModules>({
     id: 0,
     name: "",
@@ -19,16 +25,98 @@ export function ContentModules() {
     });
   }
 
-  function handleCreateModule(event: SyntheticEvent) {
+  useEffect(() => {
+    GetAllModulesWithLessons().then((data) => setModules(data));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function handleCreateModule(event: SyntheticEvent) {
     event.preventDefault();
 
-    if (!data.name) {
-      toast.error("Preencha o campo módulo para registrar!");
+    try {
+      if (!data.name) {
+        toast.error("Preencha o campo módulo para registrar!");
 
-      return;
+        return;
+      }
+
+      await createModule(data)
+        .then((response) => {
+          if (response.id) {
+            setData({
+              id: 0,
+              name: "",
+            });
+
+            toast.success("Conta criada com sucesso");
+
+            GetAllModulesWithLessons().then((data) => setModules(data));
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            toast.error("Módulo já existe");
+
+            console.clear();
+
+            return;
+          }
+
+          toast.error("Erro!, tente mais tarde");
+        });
+    } catch (error) {
+      toast.error("Erro!, tente mais tarde");
     }
+  }
 
-    
+  async function handleUpdateModule(event: SyntheticEvent) {
+    event.preventDefault();
+
+    try {
+      if (!data.name) {
+        toast.error("Preencha o campo módulo para registrar!");        
+
+        return;
+      }
+
+      console.log("Updated");
+
+      // await createModule(data)
+      //   .then((response) => {
+      //     if (response.id) {
+      //       setData({
+      //         id: 0,
+      //         name: "",
+      //       });
+
+      //       toast.success("Conta criada com sucesso");
+
+      //       GetAllModulesWithLessons().then((data) => setModules(data));
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     if (error.response.status === 400) {
+      //       toast.error("Módulo já existe");
+
+      //       console.clear();
+
+      //       return;
+      //     }
+
+      //     toast.error("Erro!, tente mais tarde");
+      //   });
+    } catch (error) {
+      toast.error("Erro!, tente mais tarde");
+    }
+  }
+
+  function handlerDeleteModule() {
+    // eslint-disable-next-line no-restricted-globals
+    const message = confirm("Desejas deletar este módulo?");
+    if (message) {
+      console.log("Deleted");
+    }
   }
 
   return (
@@ -50,7 +138,9 @@ export function ContentModules() {
 
             <div className="buttons">
               <button type="submit">Cadastrar</button>
-              <button type="button"> Actualizar</button>
+              <button type="button" onClick={handleUpdateModule}>
+                Actualizar
+              </button>
             </div>
           </Form>
         </header>
@@ -64,16 +154,33 @@ export function ContentModules() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Conceito de sistemas</td>
-              <td>Editar</td>
-              <td>Deletar</td>
-            </tr>
-            <tr>
-              <td>Data</td>
-              <td>Edit</td>
-              <td>Delete</td>
-            </tr>
+            {modules.map((module) => (
+              <tr key={module.id}>
+                <td>{module.name}</td>
+                <td
+                  onClick={() => {
+                    setData({
+                      id: module.id,
+                      name: module.name,
+                    });
+                  }}
+                >
+                  Editar
+                </td>
+                <td
+                  onClick={() => {
+                    setData({
+                      id: module.id,
+                      name: "",
+                    });
+
+                    handlerDeleteModule();
+                  }}
+                >
+                  Deletar
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Content>

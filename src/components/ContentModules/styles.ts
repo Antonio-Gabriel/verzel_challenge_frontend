@@ -59,6 +59,8 @@ export const Content = styled.div`
     width: 100%;
     border-spacing: 0 0.5rem;
 
+    margin-bottom: 4.5rem;
+
     th {
       font-weight: 700;
       padding: 1rem 2rem;
