@@ -7,6 +7,7 @@ import { Courses } from "../pages/Courses";
 import { Dashboard } from "../pages/Dashboard";
 import { CreateAccount } from "../pages/CreateAccount";
 import { Modules } from "../pages/Modules";
+import { Lessons } from "../pages/Lessons";
 
 export function Routes() {
   return (
@@ -19,7 +20,7 @@ export function Routes() {
 
       <Route exact path="/dashboard" component={Dashboard} isPrivate />
       <Route exact path="/modules" component={Modules} isPrivate />
-      <Route exact path="/lessons" component={Dashboard} isPrivate />
+      <Route exact path="/lessons" component={Lessons} isPrivate />
       <Route exact path="/profile" component={Dashboard} isPrivate />
     </Switch>
   );

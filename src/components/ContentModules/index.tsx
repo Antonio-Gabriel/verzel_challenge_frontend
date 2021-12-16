@@ -5,6 +5,7 @@ import { Form } from "../HeroAuth/styles";
 import { Input } from "../Input";
 import { toast } from "react-toastify";
 import { Container, Content } from "./styles";
+
 import {
   createModule,
   deleteModule,
@@ -123,13 +124,13 @@ export function ContentModules() {
     }
   }
 
-  function handlerDeleteModule() {
+  function handlerDeleteModule(id: number) {
     /// Delete Module
 
     // eslint-disable-next-line no-restricted-globals
     const message = confirm("Desejas deletar este módulo?");
     if (message) {
-      deleteModule(Number(data.id))
+      deleteModule(Number(id))
         .then((_) => {
           toast.success("Módulo eliminado com sucesso!");
 
@@ -194,12 +195,7 @@ export function ContentModules() {
                   </td>
                   <td
                     onClick={() => {
-                      setData({
-                        id: module.id,
-                        name: "",
-                      });
-
-                      handlerDeleteModule();
+                      handlerDeleteModule(Number(module.id));
                     }}
                   >
                     Deletar
@@ -207,11 +203,11 @@ export function ContentModules() {
                 </tr>
               ))
             ) : (
-              <>
+              <tr>
                 <td>Sem módulo</td>
                 <td></td>
                 <td></td>
-              </>
+              </tr>
             )}
           </tbody>
         </table>

@@ -13,6 +13,16 @@ export async function GetLessonsByModule(idModule: number) {
   ).data;
 }
 
+export async function GetModuleById(id: number) {
+  const token = localStorage.getItem("access_token");
+
+  return await (
+    await api.get<IModules[]>(`/modules/${id}/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
+}
+
 export async function createModule(moduleData: IModules) {
   const token = localStorage.getItem("access_token");
 
