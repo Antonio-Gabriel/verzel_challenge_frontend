@@ -6,7 +6,7 @@ A aplicação desenvolvida tem a finalidade de registrar módulos de cursos e as
 
 Para rodar a aplicação siga os seguintes passos:
 
-> Configurar o env com o host da api
+> Configurar o host da api em services
 
 > Startar o projecto com o comando a baixo
 
@@ -23,11 +23,11 @@ Algumas telas que a aplicação dispõe são:
 
 Os recursos funcionais da aplicação são:
 
-- [ ] Criação do Layout da aplicação
+- [x] Criação do Layout da aplicação
 - [ ] Criação, remoção e actualização de usuário
-- [ ] Criação, remoção, actualização e deleção de módulo
+- [x] Criação, remoção, actualização e deleção de módulo
 - [ ] Criação, remoção, actualização e deleção de aula
-- [ ] Authenticação de usuário
-- [ ] Listagem das aulas em ordem alfabetica
+- [x] Authenticação de usuário
+- [x] Listagem das aulas em ordem alfabetica
 - [x] Validação dos campos antes da inserção
 
