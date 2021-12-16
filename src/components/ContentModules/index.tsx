@@ -7,7 +7,9 @@ import { toast } from "react-toastify";
 import { Container, Content } from "./styles";
 import {
   createModule,
+  deleteModule,
   GetAllModulesWithLessons,
+  updateModule,
 } from "../../services/modulesService";
 
 export function ContentModules() {
@@ -32,6 +34,7 @@ export function ContentModules() {
   }, []);
 
   async function handleCreateModule(event: SyntheticEvent) {
+    /// Create Module
     event.preventDefault();
 
     try {
@@ -71,51 +74,72 @@ export function ContentModules() {
   }
 
   async function handleUpdateModule(event: SyntheticEvent) {
+    /// Updata Module
+
     event.preventDefault();
 
     try {
       if (!data.name) {
-        toast.error("Preencha o campo módulo para registrar!");        
+        toast.error("Preencha o campo módulo para registrar!");
+
+        setData({
+          name: "",
+          id: 0,
+        });
 
         return;
       }
 
-      console.log("Updated");
+      if (data.id !== 0) {
+        await updateModule(data)
+          .then((response) => {
+            if (response.id) {
+              setData({
+                id: 0,
+                name: "",
+              });
 
-      // await createModule(data)
-      //   .then((response) => {
-      //     if (response.id) {
-      //       setData({
-      //         id: 0,
-      //         name: "",
-      //       });
+              toast.success("Módulo actualizada com sucesso!");
 
-      //       toast.success("Conta criada com sucesso");
+              GetAllModulesWithLessons().then((data) => setModules(data));
+            }
+          })
+          .catch((error) => {
+            if (error.response.status === 400) {
+              toast.error("Módulo já existe");
 
-      //       GetAllModulesWithLessons().then((data) => setModules(data));
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     if (error.response.status === 400) {
-      //       toast.error("Módulo já existe");
+              console.clear();
 
-      //       console.clear();
+              return;
+            }
 
-      //       return;
-      //     }
-
-      //     toast.error("Erro!, tente mais tarde");
-      //   });
+            toast.error("Erro!, tente mais tarde");
+          });
+      } else {
+        toast.error("Erro!, informe um valor verdadeiro!");
+      }
     } catch (error) {
       toast.error("Erro!, tente mais tarde");
     }
   }
 
   function handlerDeleteModule() {
+    /// Delete Module
+
     // eslint-disable-next-line no-restricted-globals
     const message = confirm("Desejas deletar este módulo?");
     if (message) {
-      console.log("Deleted");
+      deleteModule(Number(data.id))
+        .then((_) => {
+          toast.success("Módulo eliminado com sucesso!");
+
+          GetAllModulesWithLessons().then((data) => setModules(data));
+        })
+        .catch((_) => {
+          console.clear();
+
+          toast.error("Erro!, tente mais tarde");
+        });
     }
   }
 
@@ -154,33 +178,41 @@ export function ContentModules() {
             </tr>
           </thead>
           <tbody>
-            {modules.map((module) => (
-              <tr key={module.id}>
-                <td>{module.name}</td>
-                <td
-                  onClick={() => {
-                    setData({
-                      id: module.id,
-                      name: module.name,
-                    });
-                  }}
-                >
-                  Editar
-                </td>
-                <td
-                  onClick={() => {
-                    setData({
-                      id: module.id,
-                      name: "",
-                    });
+            {!!modules.length ? (
+              modules.map((module) => (
+                <tr key={module.id}>
+                  <td>{module.name}</td>
+                  <td
+                    onClick={() => {
+                      setData({
+                        id: module.id,
+                        name: module.name,
+                      });
+                    }}
+                  >
+                    Editar
+                  </td>
+                  <td
+                    onClick={() => {
+                      setData({
+                        id: module.id,
+                        name: "",
+                      });
 
-                    handlerDeleteModule();
-                  }}
-                >
-                  Deletar
-                </td>
-              </tr>
-            ))}
+                      handlerDeleteModule();
+                    }}
+                  >
+                    Deletar
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <>
+                <td>Sem módulo</td>
+                <td></td>
+                <td></td>
+              </>
+            )}
           </tbody>
         </table>
       </Content>

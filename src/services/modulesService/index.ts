@@ -22,3 +22,23 @@ export async function createModule(moduleData: IModules) {
     })
   ).data;
 }
+
+export async function updateModule(moduleData: IModules) {
+  const token = localStorage.getItem("access_token");
+
+  return await (
+    await api.put<IModules>(`/modules/${moduleData.id}/`, moduleData, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
+}
+
+export async function deleteModule(id: number) {
+  const token = localStorage.getItem("access_token");
+
+  return await (
+    await api.delete(`/modules/${id}/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
+}
