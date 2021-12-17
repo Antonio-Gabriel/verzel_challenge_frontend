@@ -29,3 +29,14 @@ export async function GetAllUsers() {
     await api.get<IUserAccount[]>("/users/")
   ).data;
 }
+
+export async function deleteUserAccount(id: number) {
+  const token = localStorage.getItem("access_token");
+
+  return await (
+    await api.delete(`/users/${id}/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data;
+}
+

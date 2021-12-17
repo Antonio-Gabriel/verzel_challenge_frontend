@@ -35,7 +35,7 @@ export function HeaderDashboard() {
             </NavigationItem>
             <NavigationItem>
               <NavigationLink exact to="/profile" activeClassName="is_active">
-                Meu perfil
+                Usuários
               </NavigationLink>
             </NavigationItem>
           </NavigationMenu>

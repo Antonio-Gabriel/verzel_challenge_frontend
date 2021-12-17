@@ -251,10 +251,10 @@ export function ContentLessons() {
                       });
                     }}
                   >
-                    Edit
+                    Editar
                   </td>
                   <td onClick={() => handlerDeleteLesson(Number(lesson.id))}>
-                    Delete
+                    Deletar
                   </td>
                 </tr>
               ))
