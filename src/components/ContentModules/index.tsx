@@ -107,7 +107,7 @@ export function ContentModules() {
           })
           .catch((error) => {
             if (error.response.status === 400) {
-              toast.error("Módulo já existe");
+              toast.error("Dados inválidos");
 
               console.clear();
 
@@ -150,6 +150,7 @@ export function ContentModules() {
         <header>
           <div className="content">
             <h2>Módulos</h2>
+            <span>Total de módulos ({modules.length})</span>
           </div>
 
           <Form autoComplete="off" onSubmit={handleCreateModule}>

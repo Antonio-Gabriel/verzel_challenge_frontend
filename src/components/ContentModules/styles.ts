@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.section`
-  margin-top: -10rem;
+  margin-top: -11rem;
 `;
 
 export const Content = styled.div`
@@ -10,6 +10,17 @@ export const Content = styled.div`
 
   header {
     padding: 2rem 0;
+
+    .content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      span {
+        color: var(--body-color);
+        font-weight: 700;
+      }
+    }
 
     h2 {
       color: var(--body-color);

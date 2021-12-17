@@ -2,17 +2,19 @@ import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 
 import { Form } from "../HeroAuth/styles";
 import { Input } from "../Input";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { ILessons } from "../../types/ILessons";
 import { IModules } from "../../types/IModules";
 
 import { Container, Content, Select } from "./styles";
+import { GetAllModulesWithLessons } from "../../services/modulesService";
 import {
-  GetAllModulesWithLessons,
-  GetModuleById,
-} from "../../services/modulesService";
-import { GetAllLessons } from "../../services/lessonsService";
+  createLessons,
+  deleteLessons,
+  GetAllLessons,
+  updateLessons,
+} from "../../services/lessonsService";
 
 export function ContentLessons() {
   const [modules, setModules] = useState<IModules[]>([]);
@@ -49,112 +51,127 @@ export function ContentLessons() {
 
     //console.log(data);
 
-    // try {
-    //   if (!data.name) {
-    //     toast.error("Preencha o campo módulo para registrar!");
+    try {
+      if (!data.name || !data.start_date) {
+        toast.error("Preencha o campo módulo para registrar!");
 
-    //     return;
-    //   }
+        return;
+      }
 
-    //   await createModule(data)
-    //     .then((response) => {
-    //       if (response.id) {
-    //         setData({
-    //           id: 0,
-    //           name: "",
-    //         });
+      await createLessons(data)
+        .then((response) => {
+          if (response.id) {
+            setData({
+              id: 0,
+              name: "",
+              start_date: "",
+              module: 0,
+            });
 
-    //         toast.success("Conta criada com sucesso");
+            toast.success("Aula criada com sucesso");
 
-    //         GetAllModulesWithLessons().then((data) => setModules(data));
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       if (error.response.status === 400) {
-    //         toast.error("Módulo já existe");
+            GetAllLessons().then((data) => setLessons(data));
+            GetAllModulesWithLessons().then((data) => setModules(data));
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            toast.error("Dados inválidos!");
 
-    //         console.clear();
+            console.clear();
 
-    //         return;
-    //       }
+            return;
+          }
 
-    //       toast.error("Erro!, tente mais tarde");
-    //     });
-    // } catch (error) {
-    //   toast.error("Erro!, tente mais tarde");
-    // }
+          toast.error("Erro!, tente mais tarde");
+        });
+    } catch (error) {
+      toast.error("Erro!, tente mais tarde");
+    }
   }
 
   async function handleUpdateLesson(event: SyntheticEvent) {
     /// Updata Module
 
-    console.log(data);
     event.preventDefault();
 
-    // try {
-    //   if (!data.name) {
-    //     toast.error("Preencha o campo módulo para registrar!");
+    try {
+      if (!data.name) {
+        toast.error("Preencha o campo módulo para registrar!");
 
-    //     setData({
-    //       name: "",
-    //       id: 0,
-    //     });
+        setData({
+          id: 0,
+          name: "",
+          start_date: "",
+          module: 0,
+        });
 
-    //     return;
-    //   }
+        return;
+      }
 
-    //   if (data.id !== 0) {
-    //     await updateModule(data)
-    //       .then((response) => {
-    //         if (response.id) {
-    //           setData({
-    //             id: 0,
-    //             name: "",
-    //           });
+      if (data.id !== 0) {
+        await updateLessons(data)
+          .then((response) => {
+            if (response.id) {
+              setData({
+                id: 0,
+                name: "",
+                start_date: "",
+                module: 0,
+              });
 
-    //           toast.success("Módulo actualizada com sucesso!");
+              toast.success("Aula actualizada com sucesso!");
 
-    //           GetAllModulesWithLessons().then((data) => setModules(data));
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         if (error.response.status === 400) {
-    //           toast.error("Módulo já existe");
+              GetAllLessons().then((data) => setLessons(data));
+            }
+          })
+          .catch((error) => {
+            if (error.response.status === 400) {
+              toast.error("Dados inválidos!");
 
-    //           console.clear();
+              console.clear();
 
-    //           return;
-    //         }
+              return;
+            }
 
-    //         toast.error("Erro!, tente mais tarde");
-    //       });
-    //   } else {
-    //     toast.error("Erro!, informe um valor verdadeiro!");
-    //   }
-    // } catch (error) {
-    //   toast.error("Erro!, tente mais tarde");
-    // }
+            toast.error("Erro!, tente mais tarde");
+          });
+      } else {
+        toast.error("Erro!, informe um valor verdadeiro!");
+      }
+    } catch (error) {
+      toast.error("Erro!, tente mais tarde");
+    }
   }
 
-  function handlerDeleteLesson() {
+  function handlerDeleteLesson(id: number) {
     /// Delete Module
     // eslint-disable-next-line no-restricted-globals
-    // const message = confirm("Desejas deletar este módulo?");
-    // if (message) {
-    //   deleteModule(Number(data.id))
-    //     .then((_) => {
-    //       toast.success("Módulo eliminado com sucesso!");
-    //       GetAllModulesWithLessons().then((data) => setModules(data));
-    //     })
-    //     .catch((_) => {
-    //       console.clear();
-    //       toast.error("Erro!, tente mais tarde");
-    //     });
-    // }
+    const message = confirm("Desejas deletar este módulo?");
+    if (message) {
+      deleteLessons(Number(id))
+        .then((_) => {
+          toast.success("Módulo eliminado com sucesso!");
+
+          GetAllLessons().then((data) => setLessons(data));
+        })
+        .catch((_) => {
+          console.clear();
+          toast.error("Erro!, tente mais tarde");
+        });
+    }
   }
 
   function handleChangeCurrentModuleByLesson(id: number) {
     setModules(modules.filter((data) => data?.id === id));
+
+    const selectElement = document.getElementById("select-module");
+
+    if (selectElement?.firstChild?.textContent === "Selecione o módulo") {
+      selectElement?.removeChild<HTMLSelectElement>(
+        selectElement.firstChild as any
+      );
+    }
 
     GetAllModulesWithLessons().then((data) => setModules(data));
   }
@@ -165,6 +182,7 @@ export function ContentLessons() {
         <header>
           <div className="content">
             <h2>Nossas aulas</h2>
+            <span>Total de aulas ({lessons.length})</span>
           </div>
 
           <Form autoComplete="off" onSubmit={handleCreateLesson}>
@@ -175,7 +193,12 @@ export function ContentLessons() {
               placeholder="Nome da aula"
               type="text"
             />
-            <Select name="modulo" onChange={handleSelectChange}>
+            <Select
+              name="modulo"
+              onChange={handleSelectChange}
+              id="select-module"
+            >
+              <option>Selecione o módulo</option>
               {modules.map((module) => (
                 <option value={module.id} key={module.id}>
                   {module.name}
@@ -230,7 +253,9 @@ export function ContentLessons() {
                   >
                     Edit
                   </td>
-                  <td>Delete</td>
+                  <td onClick={() => handlerDeleteLesson(Number(lesson.id))}>
+                    Delete
+                  </td>
                 </tr>
               ))
             ) : (
